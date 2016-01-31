@@ -1,0 +1,114 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #336699;
+}
+
+#map {
+  height: 60vh;
+  float: left;
+  width: 64vw;
+}
+
+#right-panel {
+  background-color: #EAEAEA;
+  float: right;
+  width: 36vw;
+  height: 60vh;
+  overflow-y: scroll;
+  padding: 1vw;
+}
+
+#right-panel {
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+}
+
+#right-panel select, #right-panel input {
+  font-size: 15px;
+}
+
+#right-panel select {
+  width: 100%;
+}
+
+#right-panel i {
+  font-size: 12px;
+}
+
+.panel {
+  height: 100%;
+  overflow: auto;
+}
+
+#distance {
+  margin: 0;
+  padding: 5px 0;
+}
+
+#elevation_chart {
+  /*overflow-x: scroll;*/
+  width: 100%;
+}
+
+.center {
+  /*width: 100%;*/
+  text-align: center;
+}
+
+.center #logo {
+  color: #ffffff;
+  font-size: 7.11em;
+  margin: .5em 0;
+}
+
+.form-label {
+  font-size: 3em;
+  color: #EAEAEA;
+}
+
+#map-form {
+  padding-top: 1em;
+  height: 100vh;
+  position: relative;
+}
+
+#map-data {
+  height: 100vh;
+}
+
+.row-centered {
+  text-align:center;
+}
+.col-centered {
+  display:inline-block;
+  float:none;
+  /* reset the text-align */
+  text-align:left;
+  /* inline-block space fix */
+  margin-right:-4px;
+}
+
+#getMap {
+  margin-top: 2em;
+}
+
+#getLocation {
+  background-color: #ffffff;
+  float: right;
+  color: black;
+}
+
+#getLocation:hover{
+  background-color: #EAEAEA;
+}
+
+.info-div{
+  text-align: center;
+}
+
+.extra-info {
+  font-size: 3em;
+  color: #ffffff;
+}
