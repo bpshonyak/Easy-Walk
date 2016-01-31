@@ -83,17 +83,23 @@ function initMap() {
     var directions = directionsDisplay.getDirections();
     console.log(directions);
 
-    start_lat = directions.routes[0].legs[0].steps[0].start_location.lat();
-    start_lng = directions.routes[0].legs[0].steps[0].start_location.lng();
-    end_lat = directions.routes[0].legs[0].steps[0].end_location.lat();
-    end_lng = directions.routes[0].legs[0].steps[0].end_location.lng();
+    var start_lat = directions.routes[0].legs[0].steps[0].start_location.lat();
+    var start_lng = directions.routes[0].legs[0].steps[0].start_location.lng();
+    var end_lat = directions.routes[0].legs[0].steps[0].end_location.lat();
+    var end_lng = directions.routes[0].legs[0].steps[0].end_location.lng();
+
+    var start_add = directions.routes[0].legs[0].start_address;
+    var end_add = directions.routes[0].legs[0].end_address;
+
+    console.log(start_add);
+    console.log(end_add);
 
     path[0] = {lat: start_lat, lng: start_lng};
     path[1] = {lat: end_lat, lng: end_lng};
 
     console.log(path);
     // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(path, elevator, map);
+    displayPathElevation(start_add, end_add, path, elevator, directionsService, map);
 
   });
 
@@ -117,15 +123,36 @@ function displayRoute(origin, destination, service, display) {
   });
 }
 
-function displayPathElevation(path, elevator, map) {
+function displayPathElevation(origin, destination, path, elevator, directionsService, map) {
 
   // Create a PathElevationRequest object using this array.
   // Ask for 256 samples along that path.
   // Initiate the path request.
-  elevator.getElevationAlongPath({
-    'path': path,
-    'samples': 256
-  }, plotElevation);
+
+  var request = {
+    origin: origin,
+    destination: destination,
+    travelMode: "WALKING"
+    //waypoints: waypoints
+  };
+
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      elevator.getElevationAlongPath({
+        path: response.routes[0].overview_path,
+        samples: 256
+      }, plotElevation);
+    } else if (status == google.maps.DirectionsStatus.ZERO_RESULTS) {
+      alert("Could not find a route between these points");
+    } else {
+      alert("Directions request failed");
+    }
+  });
+
+  //elevator.getElevationAlongPath({
+  //  'path': path,
+  //  'samples': 256
+  //}, plotElevation);
 }
 
 // Takes an array of ElevationResult objects, draws the path on the map
