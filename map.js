@@ -1,4 +1,15 @@
-$("#map-data").hide();
+$( document ).ready(function() {
+  $("#map-data").hide();
+});
+
+function autoCompleteInit(){
+  var start_input = /** @type {!HTMLInputElement} */(
+      document.getElementById('start'));
+  var end_input = /** @type {!HTMLInputElement} */(
+      document.getElementById('end'));
+  var start_autocomplete = new google.maps.places.Autocomplete(start_input);
+  var end_autocomplete = new google.maps.places.Autocomplete(end_input);
+}
 
 // Load the Visualization API and the columnchart package.
 google.load('visualization', '1', {packages: ['columnchart']});
