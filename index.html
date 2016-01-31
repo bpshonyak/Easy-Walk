@@ -22,31 +22,35 @@
     </div>
 
     <!--Start of form-->
-    <form class="form-horizontal container">
+    <form class="form container">
+      <div class="row row-centered">
+        <div class="col-xs-9 col-centered">
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-xs-12 control-label form-label">Starting Location</label>
+            <div class="col-xs-12">
+              <input id="start" placeholder="Seattle, WA" value="Auburn, WA" class="form-control input-md">
+            </div>
+          </div>
 
-      <!-- Text input-->
-      <div class="form-group">
-        <label class="col-md-4 control-label form-label">Starting Location</label>
-        <div class="col-md-5">
-          <input id="start" placeholder="Seattle, WA" value="Auburn, WA" class="form-control input-md">
-        </div>
-      </div>
-
-      <!-- Text input-->
-      <div class="form-group">
-        <label class="col-xs-4 control-label form-label">Destination</label>
-        <div class="col-md-5">
-          <input id="end" type="text" placeholder="Auburn, WA" value="Kent, WA" class="form-control input-md">
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-xs-12 control-label form-label">Destination</label>
+            <div class="col-xs-12">
+              <input id="end" type="text" placeholder="Auburn, WA" value="Kent, WA" class="form-control input-md">
+            </div>
+          </div>
         </div>
       </div>
     </form>
     <!--End of form-->
 
-    <div class="row">
-      <div class="col-xs-9">
+    <div class="row row-centered">
+      <div class="col-xs-8 col-centered">
         <button id="getMap" class="btn btn-lg btn-primary btn-block">Find a Path!</button>
       </div>
     </div>
+      </div>
   </div>
 
   <div id="map-data">
@@ -54,6 +58,7 @@
     <div id="right-panel">
     </div>
     <div id="elevation_chart" onmouseout="clearMouseMarker()"></div>
+    <p class="extra-info">Best out of 12 paths</p>
   </div>
 
   <script src="map.js"></script>

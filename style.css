@@ -53,13 +53,14 @@ html, body {
 }
 
 .center {
-  width: 100%;
+  /*width: 100%;*/
   text-align: center;
 }
 
 .center #logo {
   color: #ffffff;
   font-size: 7.11em;
+  margin: .5em 0;
 }
 
 .form-label {
@@ -75,4 +76,20 @@ html, body {
 
 #map-data {
   height: 100vh;
+}
+
+.row-centered {
+  text-align:center;
+}
+.col-centered {
+  display:inline-block;
+  float:none;
+  /* reset the text-align */
+  text-align:left;
+  /* inline-block space fix */
+  margin-right:-4px;
+}
+
+#getMap {
+  margin-top: 2em;
 }
