@@ -2,7 +2,7 @@ $( document ).ready(function() {
   $("#map-data").hide();
 });
 
-function autoCompleteInit(){
+function googleInit(){
   var start_input = /** @type {!HTMLInputElement} */(
       document.getElementById('start'));
   var end_input = /** @type {!HTMLInputElement} */(
@@ -13,6 +13,39 @@ function autoCompleteInit(){
 
 // Load the Visualization API and the columnchart package.
 google.load('visualization', '1', {packages: ['columnchart']});
+
+
+
+function getLocation(){
+  var infoWindow = new google.maps.InfoWindow({map: map});
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+
+  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+  }
+}
+
 
 $("#getMap").click(function(){
   console.log("Getting Map!");
