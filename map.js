@@ -1,5 +1,9 @@
 $( document ).ready(function() {
   $("#map-data").hide();
+  $("#getLocation").click(function(){
+    console.log("getting location!");
+    getLocation();
+  });
 });
 
 function autoCompleteInit(){
@@ -9,6 +13,21 @@ function autoCompleteInit(){
       document.getElementById('end'));
   var start_autocomplete = new google.maps.places.Autocomplete(start_input);
   var end_autocomplete = new google.maps.places.Autocomplete(end_input);
+}
+
+function getLocation(){
+  //var infoWindow = new google.maps.InfoWindow({map: map});
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(savePosition);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+
+}
+
+function savePosition(position) {
+   $("#start").val(position.coords.latitude + ", " + position.coords.longitude);
 }
 
 // Load the Visualization API and the columnchart package.

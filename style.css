@@ -65,7 +65,7 @@ html, body {
 
 .form-label {
   font-size: 3em;
-  color: #ffffff;
+  color: #EAEAEA;
 }
 
 #map-form {
@@ -92,4 +92,13 @@ html, body {
 
 #getMap {
   margin-top: 2em;
+}
+
+#getLocation {
+  background-color: #ffffff;
+  color: black;
+}
+
+#getLocation:hover{
+  background-color: #EAEAEA;
 }
