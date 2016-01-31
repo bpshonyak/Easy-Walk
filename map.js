@@ -1,6 +1,9 @@
 // Load the Visualization API and the columnchart package.
 google.load('visualization', '1', {packages: ['columnchart']});
 
+var mousemarker = null;
+var map = null;
+
 function initMap() {
 
   // Initialize path
@@ -8,7 +11,7 @@ function initMap() {
     {lat: 37.77, lng: -122.447},   // Haight
     {lat: 37.768, lng: -122.511}]; // Ocean Beach
 
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
     center: path[0],
     mapTypeId: 'roadmap',
@@ -40,15 +43,13 @@ function initMap() {
     path[1] = {lat: end_lat, lng: end_lng};
 
     console.log(path);
-
+    // Draw the path, using the Visualization API and the Elevation service.
     displayPathElevation(path, elevator, map);
 
   });
 
   displayRoute('Auburn, WA', 'Seattle, WA', directionsService, directionsDisplay);
 
-  // Draw the path, using the Visualization API and the Elevation service.
-  //displayPathElevation(path, elevator, map);
 }
 
 function displayRoute(origin, destination, service, display) {
@@ -91,6 +92,20 @@ function plotElevation(elevations, status) {
   // Create a new chart in the elevation_chart DIV.
   var chart = new google.visualization.ColumnChart(chartDiv);
 
+
+  //Cool shit
+  google.visualization.events.addListener(chart, 'onmouseover', function(e) {
+    if (mousemarker == null) {
+      mousemarker = new google.maps.Marker({
+        position: elevations[e.row].location,
+        map: map,
+        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+      });
+    } else {
+      mousemarker.setPosition(elevations[e.row].location);
+    }
+  });
+
   // Extract the data from which to populate the chart.
   // Because the samples are equidistant, the 'Sample'
   // column here does double duty as distance along the
@@ -108,4 +123,12 @@ function plotElevation(elevations, status) {
     legend: 'none',
     titleY: 'Elevation (m)'
   });
+}
+
+// Remove the green rollover marker when the mouse leaves the chart
+function clearMouseMarker() {
+  if (mousemarker != null) {
+    mousemarker.setMap(null);
+    mousemarker = null;
+  }
 }

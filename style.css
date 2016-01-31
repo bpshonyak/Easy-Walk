@@ -47,5 +47,5 @@ html, body {
 }
 
 #elevation_chart {
-
+  /*overflow-x: scroll;*/
 }
