@@ -3,16 +3,10 @@ google.load('visualization', '1', {packages: ['columnchart']});
 
 function initMap() {
 
-  //var directionsDisplay = new google.maps.DirectionsRenderer;
-
-
-  // The path array contains the start and end position of a path
+  // Initialize path
   var path = [
     {lat: 37.77, lng: -122.447},   // Haight
     {lat: 37.768, lng: -122.511}]; // Ocean Beach
-
-  var start = {lat: 37.77, lng: -122.447};
-  var end = {lat: 37.768, lng: -122.511};
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
@@ -35,7 +29,6 @@ function initMap() {
 
   directionsDisplay.addListener('directions_changed', function() {
     var directions = directionsDisplay.getDirections();
-    computeTotalDistance(directions);
     console.log(directions);
 
     start_lat = directions.routes[0].legs[0].steps[0].start_location.lat();
@@ -50,41 +43,29 @@ function initMap() {
 
     displayPathElevation(path, elevator, map);
 
-    //calculateAndDisplayRoute(directionsService, directionsDisplay, directions);
   });
 
-  calculateAndDisplayRoute(directionsService, directionsDisplay, path);
+  displayRoute('Auburn, WA', 'Seattle, WA', directionsService, directionsDisplay);
 
   // Draw the path, using the Visualization API and the Elevation service.
-  displayPathElevation(path, elevator, map);
+  //displayPathElevation(path, elevator, map);
 }
 
-function computeTotalDistance(result) {
-  var total = 0;
-  var myroute = result.routes[0];
-  for (var i = 0; i < myroute.legs.length; i++) {
-    total += myroute.legs[i].distance.value;
-  }
-  total = total / 1000;
-  document.getElementById('total').innerHTML = total + ' km';
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay, path) {
-//      var selectedMode = document.getElementById('mode').value;
-  var selectedMode = "WALKING"
-  directionsService.route({
-    origin: path[0],  // Haight.
-    destination: path[1],  // Ocean Beach.
-    travelMode: google.maps.TravelMode[selectedMode]
+function displayRoute(origin, destination, service, display) {
+  service.route({
+    origin: origin,
+    destination: destination,
+    //waypoints: [{location: 'Cocklebiddy, WA'}, {location: 'Broken Hill, NSW'}],
+    travelMode: google.maps.TravelMode.WALKING,
+    //avoidTolls: true
   }, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
+    if (status === google.maps.DirectionsStatus.OK) {
+      display.setDirections(response);
     } else {
-      window.alert('Directions request failed due to ' + status);
+      alert('Could not display directions due to: ' + status);
     }
   });
 }
-
 
 function displayPathElevation(path, elevator, map) {
 
