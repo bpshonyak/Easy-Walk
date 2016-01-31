@@ -3,41 +3,64 @@ google.load('visualization', '1', {packages: ['columnchart']});
 
 function initMap() {
 
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  var directionsService = new google.maps.DirectionsService;
+  //var directionsDisplay = new google.maps.DirectionsRenderer;
 
-  // The following path marks a path from Mt. Whitney, the highest point in the
-  // continental United States to Badwater, Death Valley, the lowest point.
+
+  // The path array contains the start and end position of a path
   var path = [
     {lat: 37.77, lng: -122.447},   // Haight
     {lat: 37.768, lng: -122.511}]; // Ocean Beach
 
+  var start = {lat: 37.77, lng: -122.447};
+  var end = {lat: 37.768, lng: -122.511};
+
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
-    center: path[1],
+    center: path[0],
     mapTypeId: 'roadmap',
   });
+
+  var directionsDisplay = new google.maps.DirectionsRenderer({
+    draggable: true,
+    map: map,
+    panel: document.getElementById('right-panel')
+  });
+
+  var directionsService = new google.maps.DirectionsService;
 
   // Create an ElevationService.
   var elevator = new google.maps.ElevationService;
 
   directionsDisplay.setMap(map);
 
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
+  directionsDisplay.addListener('directions_changed', function() {
+    var directions = directionsDisplay.getDirections();
+    computeTotalDistance(directions);
+    
+  });
+
+  calculateAndDisplayRoute(directionsService, directionsDisplay, path);
 
   // Draw the path, using the Visualization API and the Elevation service.
   displayPathElevation(path, elevator, map);
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+function computeTotalDistance(result) {
+  var total = 0;
+  var myroute = result.routes[0];
+  for (var i = 0; i < myroute.legs.length; i++) {
+    total += myroute.legs[i].distance.value;
+  }
+  total = total / 1000;
+  document.getElementById('total').innerHTML = total + ' km';
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay, path) {
 //      var selectedMode = document.getElementById('mode').value;
   var selectedMode = "WALKING"
   directionsService.route({
-    origin: {lat: 37.77, lng: -122.447},  // Haight.
-    destination: {lat: 37.768, lng: -122.511},  // Ocean Beach.
-    // Note that Javascript allows us to access the constant
-    // using square brackets and a string value as its
-    // "property."
+    origin: path[0],  // Haight.
+    destination: path[1],  // Ocean Beach.
     travelMode: google.maps.TravelMode[selectedMode]
   }, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
@@ -50,13 +73,6 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
 
 function displayPathElevation(path, elevator, map) {
-  // Display a polyline of the elevation path.
-//      new google.maps.Polyline({
-//        path: path,
-//        strokeColor: '#0000CC',
-//        opacity: 0.4,
-//        map: map
-//      });
 
   // Create a PathElevationRequest object using this array.
   // Ask for 256 samples along that path.

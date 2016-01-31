@@ -4,21 +4,15 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
   <title>Showing elevation along a path</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    #map {
-      height: 50vh;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
   <script src="jsapi.js"></script>
 </head>
 <body>
 <div>
   <div id="map"></div>
+  <div id="right-panel">
+    <p id="distance">Total Distance: <span id="total"></span></p>
+  </div>
   <div id="elevation_chart"></div>
   <script src="map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI96nowGKSzP5xXBA5jOJc3KeZnhm2KNk&signed_in=true&callback=initMap"
