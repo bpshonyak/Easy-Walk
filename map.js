@@ -23,7 +23,6 @@ function getLocation(){
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-
 }
 
 function savePosition(position) {
@@ -111,9 +110,8 @@ function displayRoute(origin, destination, service, display) {
   service.route({
     origin: origin,
     destination: destination,
-    //waypoints: [{location: 'Cocklebiddy, WA'}, {location: 'Broken Hill, NSW'}],
     travelMode: google.maps.TravelMode.WALKING,
-    //avoidTolls: true
+    provideRouteAlternatives: true
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       display.setDirections(response);
@@ -132,12 +130,15 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
   var request = {
     origin: origin,
     destination: destination,
-    travelMode: "WALKING"
+    travelMode: google.maps.TravelMode.WALKING,
+    provideRouteAlternatives: true
     //waypoints: waypoints
   };
 
   directionsService.route(request, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
+      console.log("Response:");
+      console.log(response);
       elevator.getElevationAlongPath({
         path: response.routes[0].overview_path,
         samples: 256
@@ -149,10 +150,6 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
     }
   });
 
-  //elevator.getElevationAlongPath({
-  //  'path': path,
-  //  'samples': 256
-  //}, plotElevation);
 }
 
 // Takes an array of ElevationResult objects, draws the path on the map
@@ -168,8 +165,7 @@ function plotElevation(elevations, status) {
   // Create a new chart in the elevation_chart DIV.
   var chart = new google.visualization.ColumnChart(chartDiv);
 
-
-  //Cool shit
+  //Move blue marker when mouse is over elevation chart
   google.visualization.events.addListener(chart, 'onmouseover', function(e) {
     if (mousemarker == null) {
       mousemarker = new google.maps.Marker({
