@@ -28,11 +28,8 @@
           <!-- Text input-->
           <div class="form-group">
             <label class="col-xs-12 control-label form-label">Starting Location</label>
-            <div class="col-xs-10">
+            <div class="col-xs-12">
               <input id="start" placeholder="Seattle, WA" value="Auburn, WA" class="form-control input-md">
-            </div>
-            <div class="col-xs-2">
-              geoLocation
             </div>
           </div>
 
@@ -50,7 +47,7 @@
 
     <div class="row row-centered">
       <div class="col-xs-8 col-centered">
-        <button id="getMap" class="btn btn-lg btn-primary btn-block">Find The Easiest Path!</button>
+        <button id="getMap" class="btn btn-lg btn-primary btn-block">Find a Path!</button>
       </div>
     </div>
       </div>
@@ -65,7 +62,7 @@
   </div>
 
   <script src="map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI96nowGKSzP5xXBA5jOJc3KeZnhm2KNk&signed_in=true&libraries=places"
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI96nowGKSzP5xXBA5jOJc3KeZnhm2KNk&signed_in=true&libraries=places&callback=autoCompleteInit"
           async defer></script> <!-- &callback=initMap -->
 </div>
 </body>
