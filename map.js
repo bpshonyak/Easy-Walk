@@ -98,15 +98,15 @@ function initMap() {
 
     console.log(path);
     // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(start_add, end_add, path, elevator, directionsService, map);
+    displayPathElevation(start_add, end_add, path, elevator, directionsService, directionsDisplay, map);
 
   });
 
-  displayRoute(start, end, directionsService, directionsDisplay);
+  displayRoute(start, end, directionsService, directionsDisplay, map);
 
 }
 
-function displayRoute(origin, destination, service, display) {
+function displayRoute(origin, destination, service, display, map) {
   service.route({
     origin: origin,
     destination: destination,
@@ -114,6 +114,8 @@ function displayRoute(origin, destination, service, display) {
     provideRouteAlternatives: true
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
+      console.log("Response:");
+      console.log(response);
       display.setDirections(response);
     } else {
       alert('Could not display directions due to: ' + status);
@@ -121,7 +123,8 @@ function displayRoute(origin, destination, service, display) {
   });
 }
 
-function displayPathElevation(origin, destination, path, elevator, directionsService, map) {
+//Draws routes on map
+function displayPathElevation(origin, destination, path, elevator, directionsService, display, map) {
 
   // Create a PathElevationRequest object using this array.
   // Ask for 256 samples along that path.
@@ -137,10 +140,19 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
 
   directionsService.route(request, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-      console.log("Response:");
-      console.log(response);
+      //console.log("Routes:");
+      //console.log(response.routes);
+      //display.setDirections({routes: []});
+
+      //display.setMap(null);
+      //new google.maps.DirectionsRenderer({
+      //  map: map,
+      //  directions: response,
+      //  routeIndex: 2
+      //});
+
       elevator.getElevationAlongPath({
-        path: response.routes[0].overview_path,
+        path: response.routes[2].overview_path,
         samples: 256
       }, plotElevation);
     } else if (status == google.maps.DirectionsStatus.ZERO_RESULTS) {
@@ -152,9 +164,19 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
 
 }
 
+function findBestRoute(routes, callback){
+  console.log(routes);
+  callback();
+}
+
+
 // Takes an array of ElevationResult objects, draws the path on the map
 // and plots the elevation profile on a Visualization API ColumnChart.
 function plotElevation(elevations, status) {
+
+  console.log("Elevations: ");
+  console.log(elevations);
+
   var chartDiv = document.getElementById('elevation_chart');
   if (status !== google.maps.ElevationStatus.OK) {
     // Show the error code inside the chartDiv.
