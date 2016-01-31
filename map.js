@@ -176,7 +176,6 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
 //HACK: dont look haha
 //TODO: async calls mean the routes might be processed in diff order. This need sto be fixed.
 var data = [];
-
 var route_leng = 0;
 var curr_response = null;
 
@@ -228,17 +227,31 @@ function processResults(elevations, status){
 function renderEverything(best){
   //Makes markers unmovable
   directionsDisplay.setMap(null);
+  //directionsDisplay.setDirections(null);
+
+  $(".extra-info").html("Best out of " + route_leng + " routes");
+
+  //Reset directions panel
+  var panel = document.getElementById('right-panel');
+  panel.innerHTML = "";
 
   new google.maps.DirectionsRenderer({
     map: map,
     directions: curr_response,
-    routeIndex: best
+    routeIndex: best,
+    panel: panel
   });
 
   elevator.getElevationAlongPath({
     path: curr_response.routes[best].overview_path,
     samples: 256
   }, plotElevation);
+
+  //Reset values for next request
+  data = [];
+  route_leng = 0;
+  curr_response = null;
+
 }
 
 

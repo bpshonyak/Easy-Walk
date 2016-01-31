@@ -6,7 +6,7 @@ html, body {
 }
 
 #map {
-  height: 70vh;
+  height: 60vh;
   float: left;
   width: 64vw;
 }
@@ -15,7 +15,7 @@ html, body {
   background-color: #EAEAEA;
   float: right;
   width: 36vw;
-  height: 70vh;
+  height: 60vh;
   overflow-y: scroll;
   padding: 1vw;
 }
@@ -101,4 +101,13 @@ html, body {
 
 #getLocation:hover{
   background-color: #EAEAEA;
+}
+
+.info-div{
+  text-align: center;
+}
+
+.extra-info {
+  font-size: 3em;
+  color: #ffffff;
 }
