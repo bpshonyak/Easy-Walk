@@ -6,7 +6,7 @@ html, body {
 }
 
 #map {
-  height: 50vh;
+  height: 70vh;
   float: left;
   width: 64vw;
 }
@@ -15,7 +15,7 @@ html, body {
   background-color: #EAEAEA;
   float: right;
   width: 36vw;
-  height: 50vh;
+  height: 70vh;
   overflow-y: scroll;
   padding: 1vw;
 }
@@ -60,4 +60,19 @@ html, body {
 .center #logo {
   color: #ffffff;
   font-size: 7.11em;
+}
+
+.form-label {
+  font-size: 3em;
+  color: #ffffff;
+}
+
+#map-form {
+  padding-top: 1em;
+  height: 100vh;
+  position: relative;
+}
+
+#map-data {
+  height: 100vh;
 }

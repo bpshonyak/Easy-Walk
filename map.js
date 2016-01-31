@@ -1,15 +1,34 @@
+$("#map-data").hide();
+
 // Load the Visualization API and the columnchart package.
 google.load('visualization', '1', {packages: ['columnchart']});
+
+$("#getMap").click(function(){
+  console.log("Getting Map!");
+
+  initMap();
+  $("#map-data").show("slow");
+
+  $('html, body').animate({
+    scrollTop: $("#map-data").offset().top
+  }, 2000);
+
+});
 
 var mousemarker = null;
 var map = null;
 
 function initMap() {
 
-  // Initialize path
+  console.log("Initializing map");
+
+  // Initialize path with random starting location
   var path = [
-    {lat: 37.77, lng: -122.447},   // Haight
-    {lat: 37.768, lng: -122.511}]; // Ocean Beach
+    {lat: 37.77, lng: -122.447},
+    {lat: 37.768, lng: -122.511}];
+
+  var start = $("#start").val();
+  var end = $("#end").val();
 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
@@ -48,7 +67,7 @@ function initMap() {
 
   });
 
-  displayRoute('Auburn, WA', 'Seattle, WA', directionsService, directionsDisplay);
+  displayRoute(start, end, directionsService, directionsDisplay);
 
 }
 

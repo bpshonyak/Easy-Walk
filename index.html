@@ -16,45 +16,49 @@
 <body>
 <div class="">
 
-  <div class="center">
-    <h1 id="logo">Easy Walk</h1>
-  </div>
-
-  <!--Start of form-->
-  <form class="form-horizontal container">
-
-      <!-- Text input-->
-      <div class="form-group">
-        <label class="col-md-4 control-label">Starting Location</label>
-        <div class="col-md-5">
-          <input id="start" placeholder="Seattle, WA" class="form-control input-md">
-        </div>
-      </div>
-
-      <!-- Text input-->
-      <div class="form-group">
-        <label class="col-md-4 control-label">Destination</label>
-        <div class="col-md-5">
-          <input id="end" type="text" placeholder="Auburn, WA" class="form-control input-md">
-        </div>
-      </div>
-
-    <!--Submit Button-->
-    <div class="form-group">
-      <div class="col-md-9">
-        <button id="submit" class="btn btn-lg btn-primary btn-block">Find a Path!</button>
-      </div>
+  <div id="map-form">
+    <div class="center">
+      <h1 id="logo">Easy Walk</h1>
     </div>
 
-  </form>
-  <!--End of form-->
-  <div id="map"></div>
-  <div id="right-panel">
+    <!--Start of form-->
+    <form class="form-horizontal container">
+
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label form-label">Starting Location</label>
+        <div class="col-md-5">
+          <input id="start" placeholder="Seattle, WA" value="Auburn, WA" class="form-control input-md">
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-xs-4 control-label form-label">Destination</label>
+        <div class="col-md-5">
+          <input id="end" type="text" placeholder="Auburn, WA" value="Kent, WA" class="form-control input-md">
+        </div>
+      </div>
+    </form>
+    <!--End of form-->
+
+    <div class="row">
+      <div class="col-xs-9">
+        <button id="getMap" class="btn btn-lg btn-primary btn-block">Find a Path!</button>
+      </div>
+    </div>
   </div>
-  <div id="elevation_chart" onmouseout="clearMouseMarker()"></div>
+
+  <div id="map-data">
+    <div id="map"></div>
+    <div id="right-panel">
+    </div>
+    <div id="elevation_chart" onmouseout="clearMouseMarker()"></div>
+  </div>
+
   <script src="map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI96nowGKSzP5xXBA5jOJc3KeZnhm2KNk&signed_in=true&callback=initMap"
-          async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI96nowGKSzP5xXBA5jOJc3KeZnhm2KNk&signed_in=true"
+          async defer></script> <!-- &callback=initMap -->
 </div>
 </body>
 </html>
