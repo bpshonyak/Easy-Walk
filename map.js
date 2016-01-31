@@ -36,7 +36,21 @@ function initMap() {
   directionsDisplay.addListener('directions_changed', function() {
     var directions = directionsDisplay.getDirections();
     computeTotalDistance(directions);
-    
+    console.log(directions);
+
+    start_lat = directions.routes[0].legs[0].steps[0].start_location.lat();
+    start_lng = directions.routes[0].legs[0].steps[0].start_location.lng();
+    end_lat = directions.routes[0].legs[0].steps[0].end_location.lat();
+    end_lng = directions.routes[0].legs[0].steps[0].end_location.lng();
+
+    path[0] = {lat: start_lat, lng: start_lng};
+    path[1] = {lat: end_lat, lng: end_lng};
+
+    console.log(path);
+
+    displayPathElevation(path, elevator, map);
+
+    //calculateAndDisplayRoute(directionsService, directionsDisplay, directions);
   });
 
   calculateAndDisplayRoute(directionsService, directionsDisplay, path);
