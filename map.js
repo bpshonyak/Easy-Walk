@@ -46,6 +46,9 @@ $("#getMap").click(function(){
 
 var mousemarker = null;
 var map = null;
+var directionsDisplay = null;
+var directionsService = null;
+var elevator = null;
 
 function initMap() {
 
@@ -65,16 +68,16 @@ function initMap() {
     mapTypeId: 'roadmap',
   });
 
-  var directionsDisplay = new google.maps.DirectionsRenderer({
+  directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: true,
     map: map,
     panel: document.getElementById('right-panel')
   });
 
-  var directionsService = new google.maps.DirectionsService;
+  directionsService = new google.maps.DirectionsService;
 
   // Create an ElevationService.
-  var elevator = new google.maps.ElevationService;
+  elevator = new google.maps.ElevationService;
 
   directionsDisplay.setMap(map);
 
@@ -145,7 +148,6 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
       //display.setDirections({routes: []});
 
       //display.setMap(null);
-      //display.setMap(null);
 
       //new google.maps.DirectionsRenderer({
       //  map: map,
@@ -153,7 +155,7 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
       //  routeIndex: 2
       //});
 
-
+      curr_response = response;
       findBestRoute(response.routes, elevator);
 
       //TODO: uncomment
@@ -174,7 +176,9 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
 //HACK: dont look haha
 //TODO: async calls mean the routes might be processed in diff order. This need sto be fixed.
 var data = [];
+
 var route_leng = 0;
+var curr_response = null;
 
 function findBestRoute(routes, elevator){
   route_leng = routes.length;
@@ -211,12 +215,30 @@ function processResults(elevations, status){
   if(route_leng === data.length){
 
     var best = data.indexOf(Math.min.apply( Math, data ));
-    
+
     console.log("Minimum:");
     console.log(best);
 
+    renderEverything(best);
+
   }
 
+}
+
+function renderEverything(best){
+  //Makes markers unmovable
+  directionsDisplay.setMap(null);
+
+  new google.maps.DirectionsRenderer({
+    map: map,
+    directions: curr_response,
+    routeIndex: best
+  });
+
+  elevator.getElevationAlongPath({
+    path: curr_response.routes[best].overview_path,
+    samples: 256
+  }, plotElevation);
 }
 
 
