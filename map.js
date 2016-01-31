@@ -145,16 +145,23 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
       //display.setDirections({routes: []});
 
       //display.setMap(null);
+      //display.setMap(null);
+
       //new google.maps.DirectionsRenderer({
       //  map: map,
       //  directions: response,
       //  routeIndex: 2
       //});
 
-      elevator.getElevationAlongPath({
-        path: response.routes[2].overview_path,
-        samples: 256
-      }, plotElevation);
+
+      findBestRoute(response.routes, elevator);
+
+      //TODO: uncomment
+      //elevator.getElevationAlongPath({
+      //  path: response.routes[2].overview_path,
+      //  samples: 256
+      //}, plotElevation);
+
     } else if (status == google.maps.DirectionsStatus.ZERO_RESULTS) {
       alert("Could not find a route between these points");
     } else {
@@ -164,9 +171,52 @@ function displayPathElevation(origin, destination, path, elevator, directionsSer
 
 }
 
-function findBestRoute(routes, callback){
-  console.log(routes);
-  callback();
+//HACK: dont look haha
+//TODO: async calls mean the routes might be processed in diff order. This need sto be fixed.
+var data = [];
+var route_leng = 0;
+
+function findBestRoute(routes, elevator){
+  route_leng = routes.length;
+  for(var q = 0; q < routes.length; q++){
+    elevator.getElevationAlongPath({
+      path: routes[q].overview_path,
+      samples: 256
+    }, processResults);
+  }
+
+}
+
+function processResults(elevations, status){
+  //console.log("New Elev:");
+  //console.log(elevations);
+
+  var final = [];
+  var dev = 0;
+
+  //Create a new array of elevations
+  for(var i = 0; i < elevations.length; i++){
+      final.push(elevations[i].elevation);
+  }
+
+  //console.log("Final Array:");
+  //console.log(final);
+
+  console.log("Standard Deviation:");
+  dev = math.std(final);
+  console.log(dev);
+
+  data.push(dev);
+
+  if(route_leng === data.length){
+
+    var best = data.indexOf(Math.min.apply( Math, data ));
+    
+    console.log("Minimum:");
+    console.log(best);
+
+  }
+
 }
 
 
