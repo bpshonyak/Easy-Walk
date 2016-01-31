@@ -96,6 +96,7 @@ html, body {
 
 #getLocation {
   background-color: #ffffff;
+  float: right;
   color: black;
 }
 
