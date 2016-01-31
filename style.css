@@ -12,10 +12,10 @@ html, body {
 }
 
 #right-panel {
-  background-color: #C0C0C0;
+  background-color: #EAEAEA;
   float: right;
-  width: 34vw;
-  height: 47.5vh;
+  width: 36vw;
+  height: 50vh;
   overflow-y: scroll;
   padding: 1vw;
 }
@@ -49,4 +49,15 @@ html, body {
 
 #elevation_chart {
   /*overflow-x: scroll;*/
+  width: 100%;
+}
+
+.center {
+  width: 100%;
+  text-align: center;
+}
+
+.center #logo {
+  color: #ffffff;
+  font-size: 7.11em;
 }
